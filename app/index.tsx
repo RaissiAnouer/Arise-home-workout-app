@@ -1,29 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, ImageBackground, Animated, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 
 export default function HomeScreen() {
   const pulseAnim = useRef(new Animated.Value(0.3)).current;
   const router = useRouter();
 
-  useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(pulseAnim, {
-          toValue: 1,
-          duration: 1500,
-          useNativeDriver: true,
-        }),
-        Animated.timing(pulseAnim, {
-          toValue: 0.3,
-          duration: 1500,
-          useNativeDriver: true,
-        })
-      ])
-    ).start();
-  }, [pulseAnim]);
+  // Temporary redirect for testing the home page directly
+  return <Redirect href="/home" />;
 
+  /*
   return (
     <View style={styles.container}>
       <ImageBackground 
@@ -32,14 +19,14 @@ export default function HomeScreen() {
         resizeMode="cover"
         blurRadius={10}
       >
-        {/* Dark gradient overlay to create mood and contrast for text */}
+        {/* Dark gradient overlay to create mood and contrast for text *\/}
         <LinearGradient
           colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.5)', 'rgba(0,0,0,0.95)']}
           style={StyleSheet.absoluteFillObject}
         />
 
         <View style={styles.content}>
-          {/* Main Title Area with Glow */}
+          {/* Main Title Area with Glow *\/}
           <View style={styles.titleContainer}>
             <Text style={styles.titleGlow}>Arise</Text>
             <Text style={styles.title}>Arise</Text>
@@ -50,7 +37,7 @@ export default function HomeScreen() {
           <Text style={styles.subtitle}>YOUR HOME WORKOUT APP</Text>
         </View>
 
-        {/* Action Button */}
+        {/* Action Button *\/}
         <Pressable 
           onPress={() => router.push('/questionnaire')}
           style={({ pressed }) => [
@@ -66,6 +53,7 @@ export default function HomeScreen() {
       </ImageBackground>
     </View>
   );
+  */
 }
 
 const styles = StyleSheet.create({

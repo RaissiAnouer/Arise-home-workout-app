@@ -163,7 +163,8 @@ export default function RankResultScreen() {
 
                 <Pressable
                   style={[styles.systemBtn, styles.systemBtnAccept]}
-                  onPress={() => router.push({ pathname: '/loading-plan', params: { rank } })}
+                  // Temporary bypass for testing. To restore loader: '/loading-plan'
+                  onPress={() => router.push({ pathname: '/plan', params: { rank } })}
                 >
                   <Text style={styles.systemBtnText}>ACCEPT</Text>
                 </Pressable>
