@@ -5,18 +5,29 @@ import RadarChart from './RadarChart';
 
 const { width } = Dimensions.get('window');
 
-const AvatarFrame = () => (
-  <View style={styles.avatarContainer}>
-    {/* High tech glow */}
-    <View style={styles.avatarGlow} />
-    <View style={styles.avatarBorder}>
-      <Image 
-        source={require('../images/e-rank-pic-removebg.png')} 
-        style={styles.avatarImage} 
-      />
+const AvatarSection = () => (
+  <View style={styles.avatarSection}>
+    <View style={styles.sideInfoLeft}>
+      <Text style={[styles.sideInfoValue, { color: '#CCCCCC', textShadowColor: '#CCCCCC' }]}>E</Text>
+      <Text style={styles.sideInfoLabel}>RANK</Text>
     </View>
-    <View style={styles.levelBadge}>
-      <Text style={styles.levelBadgeText}>LV. 1</Text>
+    
+    <View style={styles.avatarContainer}>
+      <View style={styles.avatarGlow} />
+      <View style={styles.avatarBorder}>
+        <Image 
+          source={require('../images/e-rank-pic-removebg.png')} 
+          style={styles.avatarImage} 
+        />
+      </View>
+      <View style={styles.levelBadge}>
+        <Text style={styles.levelBadgeText}>LV. 1</Text>
+      </View>
+    </View>
+
+    <View style={styles.sideInfoRight}>
+      <Text style={[styles.sideInfoValue, { color: '#FF3366', textShadowColor: '#FF3366' }]}>0</Text>
+      <Text style={styles.sideInfoLabel}>PENALTY</Text>
     </View>
   </View>
 );
@@ -73,7 +84,7 @@ export default function ProfileCard() {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.contentContainer}>
-        <AvatarFrame />
+        <AvatarSection />
         <HeaderRow />
         
         <View style={styles.divider} />
@@ -103,10 +114,40 @@ const styles = StyleSheet.create({
   },
   
   // Avatar
+  avatarSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: 16,
+  },
+  sideInfoLeft: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  sideInfoRight: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  sideInfoValue: {
+    fontFamily: 'TruenoRoundBold',
+    fontSize: 28,
+    color: '#00A3FF',
+    textShadowColor: '#00A3FF',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 10,
+  },
+  sideInfoLabel: {
+    fontFamily: 'LatoRegular',
+    fontSize: 10,
+    color: '#E6F7FF',
+    letterSpacing: 2,
+    opacity: 0.8,
+    marginTop: 4,
+  },
   avatarContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
   },
   avatarGlow: {
     position: 'absolute',
