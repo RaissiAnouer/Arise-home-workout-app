@@ -53,11 +53,9 @@ export const BodyStatsScreen = ({ isFinal }: { isFinal?: boolean }) => {
             placeholder="75"
             placeholderTextColor="rgba(255,255,255,0.25)"
             keyboardType="numeric"
-            selectionColor="#1b45d7"
+            selectionColor="#4080E7"
           />
         </View>
-
-
 
         <View style={styles.field}>
           <Text style={styles.label}>HEIGHT (CM)</Text>
@@ -68,7 +66,7 @@ export const BodyStatsScreen = ({ isFinal }: { isFinal?: boolean }) => {
             placeholder="180"
             placeholderTextColor="rgba(255,255,255,0.25)"
             keyboardType="numeric"
-            selectionColor="#1b45d7"
+            selectionColor="#4080E7"
           />
         </View>
 
@@ -128,16 +126,18 @@ const styles = StyleSheet.create({
   },
   doneBtn: {
     marginTop: 30,
-    backgroundColor: '#1b45d7',
+    backgroundColor: '#4080E7',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   doneText: {
-    fontSize: 15,
-    color: '#fff',
-    letterSpacing: 3,
-    fontWeight: '700',
+    fontSize: 14,
+    color: '#FFFFFF',
+    letterSpacing: 1.2,
+    fontWeight: '600',
+    textTransform: 'uppercase',
   },
   header: {
     flexDirection: 'row',
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: '100%',
-    backgroundColor: '#1b45d7',
+    backgroundColor: '#4080E7',
     borderRadius: 2,
   },
 });

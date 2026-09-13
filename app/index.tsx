@@ -104,17 +104,17 @@ const styles = StyleSheet.create({
     color: 'transparent', 
     letterSpacing: 10,
     textTransform: 'uppercase',
-    textShadowColor: '#1b45d7', // Deep neon blue
+    textShadowColor: '#4080E7', // App accent blue
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 25,
   },
   divider: {
     width: 60,
     height: 1,
-    backgroundColor: '#1b45d7',
+    backgroundColor: '#4080E7',
     marginTop: 20,
     marginBottom: 20,
-    shadowColor: '#1b45d7',
+    shadowColor: '#4080E7',
     shadowOpacity: 1,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 0 },
