@@ -79,11 +79,22 @@ export default function RankBadge({
     transform: [{ scale: pulse.value }],
   }));
 
+  const glowStyle = showGlow
+    ? {
+        shadowColor: config.glowColor || '#4080E7',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.65,
+        shadowRadius: Math.max(6, pixelSize * 0.15),
+        elevation: 6,
+      }
+    : null;
+
   const content = (
     <Animated.View
       style={[
         styles.wrapper,
         { width: pixelSize, height: pixelSize },
+        glowStyle,
         animated && animatedContainerStyle,
         style,
       ]}

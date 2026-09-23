@@ -28,6 +28,7 @@ import { useFocusEffect, useRouter } from 'expo-router';
 import HunterStatusCard from '../../src/components/HunterStatusCard';
 import PredictedRankCard from '../../src/components/PredictedRankCard';
 import LevelUpNotification from '../../src/components/LevelUpNotification';
+import MiniWeekProgress from '../../src/components/MiniWeekProgress';
 import PrimaryButton from '../../src/components/PrimaryButton';
 import { HunterRank, RANK_CONFIG } from '../../src/data/levelConfig';
 import { Bell, Check, X, Dumbbell, Calendar, PlusCircle, Sparkles, PlayCircle, RotateCw, Trash2, Play, ChevronDown, ChevronUp, ChevronRight, Flame, Target, Gift } from 'lucide-react-native';
@@ -984,46 +985,10 @@ export default function HomeScreen() {
 
           {/* Weekly Streak Tracker (Matching Streak Page) */}
           <Reanimated.View entering={FadeInDown.duration(400)} style={styles.weeklySection}>
-            <Pressable
-              style={styles.weekDaysContainer}
-              onPress={() => router.push('/streak' as any)}
-            >
-              {weekDays.map((day, index) => {
-                return (
-                  <View key={day.key} style={styles.dayCol}>
-                    <Text style={[styles.dayLabel, day.isToday && styles.todayLabel]}>
-                      {day.label}
-                    </Text>
-                    <View
-                      style={[
-                        styles.dayCircle,
-                        day.isCompleted && styles.dayCircleCompleted,
-                        day.isMissed && styles.dayCircleMissed,
-                        day.isRestDay && !day.isCompleted && styles.dayCircleRest,
-                        day.isToday && !day.isCompleted && !day.isMissed && styles.dayCircleToday,
-                      ]}
-                    >
-                      {day.isCompleted ? (
-                        <Check size={16} color="#000000" strokeWidth={2.8} />
-                      ) : day.isMissed ? (
-                        <X size={15} color="#FF3B30" strokeWidth={2.8} />
-                      ) : (
-                        <Text
-                          style={[
-                            styles.dayNumberText,
-                            day.isToday && styles.todayNumberText,
-                            day.isFuture && styles.futureNumberText,
-                            day.isRestDay && styles.restDayNumberText,
-                          ]}
-                        >
-                          {day.dayNumber}
-                        </Text>
-                      )}
-                    </View>
-                  </View>
-                );
-              })}
-            </Pressable>
+            <MiniWeekProgress
+              weekDays={weekDays}
+              onPressContainer={() => router.push('/streak' as any)}
+            />
           </Reanimated.View>
 
           {/* Predicted Rank Section */}

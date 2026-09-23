@@ -37,7 +37,7 @@ export default function RankResultScreen() {
     switch (r) {
       case 'S': return '#FFD700';
       case 'A': return '#FF4500';
-      case 'B': return '#4080E7';
+      case 'B': return '#1b45d7';
       case 'C': return '#32CD32';
       case 'D': return '#A9A9A9';
       case 'E': return '#8B4513';
@@ -106,7 +106,7 @@ export default function RankResultScreen() {
         <Text style={styles.title}>Your Hunter Rank Is</Text>
         
         <View style={styles.rankContainer}>
-          <RankBadge rank={rank as any} size="xl" showGlow animated />
+          <RankBadge rank={rank as any} size={200} showGlow animated />
           <Text style={[styles.rankText, { color: getRankColor(rank) }]}>{rank}-RANK</Text>
         </View>
 
@@ -205,17 +205,16 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   button: {
-    backgroundColor: '#4080E7',
+    backgroundColor: '#1b45d7',
     paddingVertical: 16,
     paddingHorizontal: 60,
     borderRadius: 12,
   },
   buttonText: {
-    fontSize: 14,
-    color: '#FFFFFF',
-    letterSpacing: 1.2,
-    fontWeight: '600',
-    textTransform: 'uppercase',
+    fontSize: 16,
+    color: '#fff',
+    letterSpacing: 4,
+    fontWeight: '700',
   },
   // System Prompt Styles
   systemOverlay: {

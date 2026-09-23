@@ -179,7 +179,7 @@ export default function LevelUpNotification({ event, onDismiss }: LevelUpNotific
                 justifyContent: 'center',
               }}
             >
-              <RankBadge rank={event.newRank} size={220} showGlow={false} animated={false} />
+              <RankBadge rank={event.newRank} size={280} showGlow={false} animated={false} />
             </Animated.View>
 
             {/* Rank Title Block */}

@@ -201,8 +201,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#111',
   },
   optionSelected: {
-    backgroundColor: '#4080E7',
-    borderColor: '#4080E7',
+    backgroundColor: '#1b45d7',
+    borderColor: '#1b45d7',
   },
   iconWrap: {
     width: 32,
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   },
   continueButton: {
     marginTop: 28,
-    backgroundColor: '#4080E7',
+    backgroundColor: '#1b45d7',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: '100%',
-    backgroundColor: '#4080E7',
+    backgroundColor: '#1b45d7',
     borderRadius: 2,
   },
 });

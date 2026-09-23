@@ -2,10 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, ImageBackground, Animated, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useQuestionnaire } from '../src/context/QuestionnaireContext';
+import { supabase } from '../src/lib/supabase';
 
 export default function HomeScreen() {
   const pulseAnim = useRef(new Animated.Value(0.3)).current;
   const router = useRouter();
+  const { resetAnswers } = useQuestionnaire();
 
   useEffect(() => {
     const pulse = Animated.loop(
@@ -25,6 +29,21 @@ export default function HomeScreen() {
     pulse.start();
     return () => pulse.stop();
   }, [pulseAnim]);
+
+  const handleStart = async () => {
+    try {
+      resetAnswers();
+      await supabase.auth.signOut().catch(() => {});
+      await AsyncStorage.multiRemove([
+        '@arise_onboarding_completed',
+        '@arise_auth_user',
+        '@arise_questionnaire_answers',
+      ]).catch(() => {});
+    } catch (e) {
+      console.log('Error clearing session on start:', e);
+    }
+    router.push('/questionnaire');
+  };
 
   return (
     <View style={styles.container}>
@@ -54,7 +73,7 @@ export default function HomeScreen() {
 
         {/* Action Button */}
         <Pressable 
-          onPress={() => router.push('/questionnaire')}
+          onPress={handleStart}
           style={({ pressed }) => [
             styles.tapButton,
             pressed && { transform: [{ scale: 0.95 }] }
@@ -104,17 +123,17 @@ const styles = StyleSheet.create({
     color: 'transparent', 
     letterSpacing: 10,
     textTransform: 'uppercase',
-    textShadowColor: '#4080E7', // App accent blue
+    textShadowColor: '#1b45d7', // Deep neon blue
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 25,
   },
   divider: {
     width: 60,
     height: 1,
-    backgroundColor: '#4080E7',
+    backgroundColor: '#1b45d7',
     marginTop: 20,
     marginBottom: 20,
-    shadowColor: '#4080E7',
+    shadowColor: '#1b45d7',
     shadowOpacity: 1,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 0 },

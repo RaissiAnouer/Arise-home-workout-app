@@ -20,6 +20,7 @@ import { useWorkoutPlan } from '../src/context/WorkoutPlanContext';
 import { useQuestionnaire } from '../src/context/QuestionnaireContext';
 import { StreakService } from '../src/services/StreakService';
 import PrimaryButton from '../src/components/PrimaryButton';
+import MiniWeekProgress from '../src/components/MiniWeekProgress';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const LOTTIE_SIZE = Math.min(SCREEN_WIDTH * 0.65, 260);
@@ -463,44 +464,10 @@ export default function StreakScreen() {
 
         {/* Streak Days Row Container */}
         <View style={styles.weekCardWrapper}>
-          <View style={styles.weekDaysContainer}>
-            {weekDays.map((day) => {
-              return (
-                <View key={day.key} style={styles.dayCol}>
-                  <Text style={[styles.dayLabel, day.isToday && styles.todayLabel]}>
-                    {day.label}
-                  </Text>
-                  <Animated.View
-                    style={[
-                      styles.dayCircle,
-                      day.isCompleted && styles.dayCircleCompleted,
-                      day.isMissed && styles.dayCircleMissed,
-                      day.isRestDay && !day.isCompleted && styles.dayCircleRest,
-                      day.isToday && !day.isCompleted && !day.isMissed && styles.dayCircleToday,
-                      day.isToday && { transform: [{ scale: todayCircleScale }] },
-                    ]}
-                  >
-                    {day.isCompleted ? (
-                      <Check size={16} color="#000000" strokeWidth={2.8} />
-                    ) : day.isMissed ? (
-                      <X size={15} color="#FF3B30" strokeWidth={2.8} />
-                    ) : (
-                      <Text
-                        style={[
-                          styles.dayNumberText,
-                          day.isToday && styles.todayNumberText,
-                          day.isFuture && styles.futureNumberText,
-                          day.isRestDay && styles.restDayNumberText,
-                        ]}
-                      >
-                        {day.dayNumber}
-                      </Text>
-                    )}
-                  </Animated.View>
-                </View>
-              );
-            })}
-          </View>
+          <MiniWeekProgress
+            weekDays={weekDays}
+            todayScale={todayCircleScale}
+          />
         </View>
 
         {/* Bottom Primary Button with 3-button navigation bar safety clearance */}

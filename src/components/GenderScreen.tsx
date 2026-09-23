@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#4080E7',
+    backgroundColor: '#1b45d7',
     borderRadius: 2,
   },
 
@@ -178,8 +178,8 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   cardSelected: {
-    borderColor: '#4080E7',
-    backgroundColor: '#4080E7',
+    borderColor: '#1b45d7',
+    backgroundColor: '#1b45d7',
   },
 
   // Checkmark badge
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#4080E7',
+    backgroundColor: '#1b45d7',
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 10,
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   labelPillSelected: {
-    backgroundColor: '#4080E7',
+    backgroundColor: '#1b45d7',
   },
   cardLabel: {
     fontSize: 13,

@@ -26,6 +26,7 @@ import {
   Brain,
   Eye,
   Database,
+  LogOut,
   HardDrive,
 } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -33,6 +34,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { useProgression } from '../../src/context/ProgressionContext';
 import ProfileStatsPane from '../../src/components/profile/ProfileStatsPane';
 import RadarChart from '../../src/components/RadarChart';
+import { useQuestionnaire } from '../../src/context/QuestionnaireContext';
+import { supabase } from '../../src/lib/supabase';
 import { typography } from '../../src/styles/typography';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -44,6 +47,22 @@ const ACCENT_BLUE = '#4080E7';
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const { resetAnswers } = useQuestionnaire();
+
+  const handleResetAndStartQuestionnaire = async () => {
+    try {
+      await supabase.auth.signOut().catch(() => {});
+      resetAnswers();
+      await AsyncStorage.multiRemove([
+        '@arise_onboarding_completed',
+        '@arise_auth_user',
+        '@arise_questionnaire_answers',
+      ]).catch(() => {});
+      router.replace('/questionnaire');
+    } catch (e) {
+      router.replace('/questionnaire');
+    }
+  };
   const insets = useSafeAreaInsets();
   const {
     profilePicture,
@@ -392,6 +411,19 @@ export default function ProfileScreen() {
                 </View>
               </View>
             </View>
+            {/* 3. RESET & RETAKE QUESTIONNAIRE */}
+            <View style={[styles.sectionWrapper, { marginTop: 16 }]}>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.logoutBtn,
+                  pressed && { opacity: 0.8, transform: [{ scale: 0.98 }] },
+                ]}
+                onPress={handleResetAndStartQuestionnaire}
+              >
+                <LogOut size={16} color="#FF453A" />
+                <Text style={styles.logoutBtnText}>CREATE NEW ACCOUNT / RETAKE QUESTIONNAIRE</Text>
+              </Pressable>
+            </View>
           </View>
         </Animated.ScrollView>
     </View>
@@ -609,5 +641,23 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: 'rgba(255, 255, 255, 0.6)',
     fontWeight: '500',
+  },
+  logoutBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 69, 58, 0.4)',
+    backgroundColor: 'rgba(255, 69, 58, 0.08)',
+    marginTop: 8,
+  },
+  logoutBtnText: {
+    color: '#FF453A',
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 1.2,
   },
 });

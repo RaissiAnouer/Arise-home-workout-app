@@ -95,6 +95,7 @@ export default function AuthScreen() {
 
     try {
       if (mode === 'signup') {
+        await supabase.auth.signOut().catch(() => {});
         const nameToUse = hunterNameInput.trim() || 'Hunter';
         const { data, error } = await supabase.auth.signUp({
           email: cleanEmail,
