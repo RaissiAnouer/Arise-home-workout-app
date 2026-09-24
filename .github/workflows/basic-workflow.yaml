@@ -1,7 +1,8 @@
 name: learing github action
 on: 
   push:
-    - main
+    branches:
+      - github-action
 
 jobs:
   if-condition:
@@ -9,8 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: saying hello
-        run: echo "hello dear friend"*
+        run: echo "hello dear friend"
+      
+      - name: success 
         if: success()
         run: echo "successeded"
-        if: fail()
+
+      - name: faillure
+        if: failure()
         run: echo "failed"
