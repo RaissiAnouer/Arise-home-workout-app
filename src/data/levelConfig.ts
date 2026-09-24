@@ -6,7 +6,7 @@ export const RANK_CONFIG: Record<HunterRank, {
   glowColor: string;
   minLevel: number;
 }> = {
-  E: { title: 'E-RANK HUNTER', color: '#8B4513', glowColor: '#A0522D', minLevel: 1 },
+  E: { title: 'E-RANK HUNTER', color: '#94A3B8', glowColor: '#CBD5E1', minLevel: 1 },
   D: { title: 'D-RANK HUNTER', color: '#A9A9A9', glowColor: '#C0C0C0', minLevel: 10 },
   C: { title: 'C-RANK HUNTER', color: '#32CD32', glowColor: '#00FF7F', minLevel: 25 },
   B: { title: 'B-RANK HUNTER', color: '#1B45D7', glowColor: '#38B6FF', minLevel: 40 },

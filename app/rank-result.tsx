@@ -6,6 +6,7 @@ import { useQuestionnaire } from '../src/context/QuestionnaireContext';
 import { SystemNotification } from '../src/components/SystemNotification';
 import { typography } from '../src/styles/typography';
 import RankBadge from '../src/components/rank/RankBadge';
+import { RANK_CONFIG, HunterRank } from '../src/data/levelConfig';
 
 type Rank = 'E' | 'D' | 'C' | 'B' | 'A' | 'S';
 
@@ -34,15 +35,7 @@ export default function RankResultScreen() {
   }, [answers]);
 
   const getRankColor = (r: Rank) => {
-    switch (r) {
-      case 'S': return '#FFD700';
-      case 'A': return '#FF4500';
-      case 'B': return '#1b45d7';
-      case 'C': return '#32CD32';
-      case 'D': return '#A9A9A9';
-      case 'E': return '#8B4513';
-      default: return '#fff';
-    }
+    return RANK_CONFIG[r as HunterRank]?.color || '#94A3B8';
   };
 
   const handleArise = () => {
@@ -106,7 +99,7 @@ export default function RankResultScreen() {
         <Text style={styles.title}>Your Hunter Rank Is</Text>
         
         <View style={styles.rankContainer}>
-          <RankBadge rank={rank as any} size={200} showGlow animated />
+          <RankBadge rank={rank as any} size={200} showGlow={false} animated={false} />
           <Text style={[styles.rankText, { color: getRankColor(rank) }]}>{rank}-RANK</Text>
         </View>
 
@@ -187,11 +180,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 32,
-    padding: 20,
-    borderRadius: 24,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.08)',
     gap: 12,
   },
   rankText: {

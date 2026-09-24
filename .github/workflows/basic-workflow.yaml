@@ -1,13 +1,16 @@
-name: Basic Workflow
-on:
+name: learing github action
+on: 
   push:
-    branches:
-      - basic-Workflow
+    - main
 
 jobs:
-  do-things:
-    name: Do things
+  if-condition:
+    name: if condition testing
     runs-on: ubuntu-latest
     steps:
-      - name: The Thing I've Done
-        run: echo "I've Done a Thing!"
+      - name: saying hello
+        run: echo "hello dear friend"*
+        if: success()
+        run: echo "successeded"
+        if: fail()
+        run: echo "failed"

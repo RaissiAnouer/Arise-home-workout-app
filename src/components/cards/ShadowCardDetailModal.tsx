@@ -8,8 +8,10 @@ import {
   Pressable,
   ScrollView,
   Dimensions,
+  Image,
 } from 'react-native';
-import { X, Zap, Shield, Sword, Wind, Flame, Lock, CheckCircle2 } from 'lucide-react-native';
+import { LinearGradient as ExpoLinearGradient } from 'expo-linear-gradient';
+import { X, Zap, Shield, Sword, Wind, Flame, Lock, CheckCircle2, Sparkles } from 'lucide-react-native';
 import Svg, { Defs, LinearGradient, Stop, Circle, Path, G, RadialGradient } from 'react-native-svg';
 import {
   ShadowCard,
@@ -17,6 +19,7 @@ import {
   ELEMENT_CONFIG,
   getCardUnlockProgress,
   CardUnlockProgress,
+  getShadowImage,
 } from '../../data/shadowCardsData';
 import { typography } from '../../styles/typography';
 
@@ -36,8 +39,8 @@ function LargeCharacterArt({
 }) {
   const rarityConf = RARITY_CONFIG[rarity as keyof typeof RARITY_CONFIG] || RARITY_CONFIG.Common;
   const elementConf = ELEMENT_CONFIG[element as keyof typeof ELEMENT_CONFIG] || ELEMENT_CONFIG.shadow;
-  const color = isUnlocked ? elementConf.color : '#4A463E';
-  const glowColor = isUnlocked ? rarityConf.color : '#2A2722';
+  const color = isUnlocked ? elementConf.color : '#334155';
+  const glowColor = isUnlocked ? rarityConf.color : '#1E293B';
   const w = ART_SIZE;
   const h = ART_SIZE * 1.15;
   const cx = w / 2;
@@ -169,11 +172,12 @@ function StatBar({
   );
 }
 
-// ── Main Modal ──────────────────────────────────────────────
 interface ShadowCardDetailModalProps {
   visible: boolean;
   card: ShadowCard | null;
   isUnlocked: boolean;
+  canClaim?: boolean;
+  onClaim?: () => void;
   progression?: {
     totalWorkouts: number;
     level: number;
@@ -187,6 +191,8 @@ export default function ShadowCardDetailModal({
   visible,
   card,
   isUnlocked,
+  canClaim = false,
+  onClaim,
   progression,
   onClose,
 }: ShadowCardDetailModalProps) {
@@ -208,7 +214,7 @@ export default function ShadowCardDetailModal({
         <View style={styles.container}>
           {/* Close button */}
           <TouchableOpacity style={styles.closeBtn} onPress={onClose} activeOpacity={0.7} hitSlop={12}>
-            <X size={20} color="#1A1A1A" strokeWidth={2.4} />
+            <X size={20} color="#FFFFFF" strokeWidth={2.4} />
           </TouchableOpacity>
 
           <ScrollView
@@ -217,12 +223,26 @@ export default function ShadowCardDetailModal({
             showsVerticalScrollIndicator={false}
           >
             {/* Character Art Section */}
-            <View style={[styles.artSection, { backgroundColor: isUnlocked ? '#E5DED1' : '#D5CEC0' }]}>
-              <LargeCharacterArt
-                element={card.element}
-                rarity={card.rarity}
-                isUnlocked={isUnlocked}
-              />
+            <View style={[styles.artSection, { backgroundColor: isUnlocked ? '#0B0F19' : '#070A12' }]}>
+              {isUnlocked ? (
+                <View style={[styles.detailArtContainer, { borderColor: rarityConf.color }]}>
+                  <Image
+                    source={getShadowImage(card)}
+                    style={styles.detailArtImage}
+                    resizeMode="cover"
+                  />
+                  <ExpoLinearGradient
+                    colors={['transparent', 'rgba(11, 15, 25, 0.75)']}
+                    style={styles.detailArtGradient}
+                  />
+                </View>
+              ) : (
+                <LargeCharacterArt
+                  element={card.element}
+                  rarity={card.rarity}
+                  isUnlocked={isUnlocked}
+                />
+              )}
 
               {/* Status Ribbon */}
               <View
@@ -276,7 +296,7 @@ export default function ShadowCardDetailModal({
                 {isUnlocked && (
                   <>
                     <View style={styles.levelPill}>
-                      <Zap size={11} color="#333333" strokeWidth={2.5} />
+                      <Zap size={11} color="#4080E7" strokeWidth={2.5} />
                       <Text style={styles.levelPillText}>LEVEL {card.level}</Text>
                     </View>
 
@@ -326,6 +346,17 @@ export default function ShadowCardDetailModal({
                       </View>
                     </View>
                   )}
+
+                  {canClaim && onClaim && (
+                    <TouchableOpacity
+                      style={styles.claimButton}
+                      activeOpacity={0.8}
+                      onPress={onClaim}
+                    >
+                      <Sparkles size={16} color="#FFFFFF" />
+                      <Text style={styles.claimButtonText}>EXTRACT SHADOW</Text>
+                    </TouchableOpacity>
+                  )}
                 </View>
               </View>
             )}
@@ -364,7 +395,7 @@ export default function ShadowCardDetailModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.65)',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -380,15 +411,15 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 400,
     maxHeight: '88%',
-    backgroundColor: '#ECE5D8',
+    backgroundColor: '#0F121C',
     borderRadius: 22,
     borderWidth: 1,
-    borderColor: '#D8D0C2',
+    borderColor: 'rgba(255, 255, 255, 0.1)',
     overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.25,
-    shadowRadius: 15,
+    shadowOpacity: 0.5,
+    shadowRadius: 20,
     elevation: 8,
   },
   closeBtn: {
@@ -398,7 +429,9 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#DFD8CA',
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 10,
@@ -415,6 +448,26 @@ const styles = StyleSheet.create({
     paddingTop: 28,
     paddingBottom: 22,
     position: 'relative',
+  },
+  detailArtContainer: {
+    width: ART_SIZE * 1.05,
+    height: ART_SIZE * 1.35,
+    borderRadius: 18,
+    overflow: 'hidden',
+    borderWidth: 1.5,
+    position: 'relative',
+    backgroundColor: '#0F121C',
+  },
+  detailArtImage: {
+    width: '100%',
+    height: '100%',
+  },
+  detailArtGradient: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: '45%',
   },
   statusRibbon: {
     position: 'absolute',
@@ -443,13 +496,13 @@ const styles = StyleSheet.create({
   characterName: {
     fontSize: 22,
     fontWeight: '800',
-    color: '#1A1816',
+    color: '#FFFFFF',
     letterSpacing: 0.4,
   },
   characterTitle: {
     fontSize: 13,
     fontWeight: '500',
-    color: '#655F55',
+    color: '#94A3B8',
   },
   badgeRow: {
     flexDirection: 'row',
@@ -472,7 +525,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#DFD8CB',
+    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 8,
@@ -480,7 +535,7 @@ const styles = StyleSheet.create({
   levelPillText: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#2B2620',
+    color: '#E2E8F0',
     letterSpacing: 0.4,
   },
   elementPill: {
@@ -501,10 +556,10 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   sectionLabel: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700',
-    color: '#756E63',
-    letterSpacing: 0.8,
+    color: '#FFFFFF',
+    letterSpacing: 0.6,
     marginBottom: 8,
   },
   lockProgressSection: {
@@ -512,15 +567,33 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   requirementCard: {
-    backgroundColor: '#DFD7C8',
+    backgroundColor: '#141824',
     borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.08)',
     padding: 14,
     gap: 10,
+  },
+  claimButton: {
+    backgroundColor: '#4080E7',
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 8,
+  },
+  claimButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    letterSpacing: 1.2,
   },
   requirementText: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#1A1816',
+    color: '#FFFFFF',
     letterSpacing: 0.3,
   },
   progressDetailBox: {
@@ -534,12 +607,12 @@ const styles = StyleSheet.create({
   },
   progressCurrentText: {
     fontSize: 12,
-    color: '#524C42',
+    color: '#94A3B8',
     fontWeight: '500',
   },
   progressBold: {
     fontWeight: '800',
-    color: '#1A1816',
+    color: '#FFFFFF',
   },
   progressPercentText: {
     fontSize: 12,
@@ -549,7 +622,7 @@ const styles = StyleSheet.create({
   progressBarTrack: {
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#CCC3B2',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     overflow: 'hidden',
   },
   progressBarFill: {
@@ -578,13 +651,13 @@ const styles = StyleSheet.create({
   statLabel: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#4B453D',
+    color: '#94A3B8',
   },
   statBarTrack: {
     flex: 1,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#D8D0C2',
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
     overflow: 'hidden',
   },
   statBarFill: {
@@ -605,7 +678,7 @@ const styles = StyleSheet.create({
   loreText: {
     fontSize: 13,
     fontWeight: '400',
-    color: '#4A443B',
+    color: 'rgba(255, 255, 255, 0.65)',
     lineHeight: 19,
     fontStyle: 'italic',
   },
