@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: saying hello
-        run: echo "hello dear friend"
+        run: exit -1
       
       - name: success 
         if: success()
