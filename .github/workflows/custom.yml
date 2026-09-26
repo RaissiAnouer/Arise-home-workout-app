@@ -1,0 +1,27 @@
+name: getting started
+on:
+  push:
+    branches: 
+      - main
+
+jobs:
+  setupNode:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6.1.0
+      
+      - name: install Node.js 18
+        uses: actions/setup-node@v6.5.0
+        with:
+          node-version: 18
+
+      - name: run npm install 
+        run: npm install
+
+      - name: npm test
+        run: npm test
+      
+       
+       
+    
