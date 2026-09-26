@@ -1,0 +1,13 @@
+name: hello world
+on:
+  push:
+    branches: 
+      - main
+jobs:
+  hello:
+    runs-on: ubuntu-22.04
+    env:
+      name: anouer
+    steps:
+      - run: echo 'hello ${{env.name}}'
+      
